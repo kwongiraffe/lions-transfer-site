@@ -1,0 +1,496 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --lions-navy: #0d1b4b;
+  --lions-blue: #1a3a8f;
+  --lions-gold: #c8a84b;
+  --lions-light: #e8d9a8;
+  --green: #0f4c35;
+  --bg: #f5f4f0;
+  --surface: #ffffff;
+  --surface2: #f0efe9;
+  --border: rgba(0,0,0,0.10);
+  --border2: rgba(0,0,0,0.18);
+  --text: #1a1a1a;
+  --text2: #666;
+  --text3: #999;
+  --radius-md: 8px;
+  --radius-xl: 16px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #111218;
+    --surface: #1c1e27;
+    --surface2: #23263a;
+    --border: rgba(255,255,255,0.09);
+    --border2: rgba(255,255,255,0.18);
+    --text: #eeeef0;
+    --text2: #aaa;
+    --text3: #777;
+  }
+}
+
+html { font-size: 16px; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+button, input, select, textarea { font: inherit; }
+
+.site-header {
+  background: var(--lions-navy);
+  padding: 0 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid rgba(200,168,75,0.25);
+}
+
+.header-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 56px;
+}
+
+.lion-badge {
+  width: 36px;
+  height: 36px;
+  background: var(--lions-gold);
+  color: var(--lions-navy);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.header-titles h1 {
+  font-size: 16px;
+  font-weight: 650;
+  color: var(--lions-light);
+}
+
+.header-titles span {
+  display: block;
+  font-size: 11px;
+  color: #9cabe0;
+}
+
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 1.25rem 1rem 4rem;
+}
+
+.status-banner {
+  background: #fff7d6;
+  color: #6b4a00;
+  border: 1px solid #e8c85c;
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  margin-bottom: 1rem;
+  font-size: 13px;
+}
+
+.category-tabs, .trade-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 1rem;
+}
+
+.trade-tabs { margin-bottom: 1.25rem; }
+
+.cat-btn, .trade-btn {
+  flex: 1;
+  min-height: 42px;
+  padding: 9px 6px;
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--text2);
+  font-size: 13px;
+  font-weight: 550;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+
+.cat-btn.active-ticket, .trade-btn.active-sell {
+  background: var(--lions-navy);
+  border-color: var(--lions-navy);
+  color: var(--lions-gold);
+}
+
+.cat-btn.active-goods {
+  background: #3a1a0d;
+  border-color: #7a3a1a;
+  color: #e8a86d;
+}
+
+.trade-btn.active-buy {
+  background: var(--green);
+  border-color: #1a7a55;
+  color: #7fd1a8;
+}
+
+.cat-btn:hover, .trade-btn:hover, .filter-btn:hover, .done-btn:hover { background: var(--surface2); }
+.cat-btn[class*="active"]:hover, .trade-btn[class*="active"]:hover { opacity: 0.92; }
+
+.form-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.form-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text2);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.form-group span {
+  font-size: 12px;
+  color: var(--text2);
+  font-weight: 550;
+}
+
+.form-group input, .form-group select, .form-group textarea {
+  width: 100%;
+  min-height: 38px;
+  padding: 8px 10px;
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-md);
+  background: var(--surface2);
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+  border-color: var(--lions-blue);
+  box-shadow: 0 0 0 3px rgba(26,58,143,0.12);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 78px;
+}
+
+.form-group small {
+  font-size: 11px;
+  color: var(--text3);
+}
+
+.form-full { grid-column: 1 / -1; }
+
+.submit-btn {
+  width: 100%;
+  min-height: 44px;
+  padding: 11px;
+  border-radius: var(--radius-md);
+  border: none;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 6px;
+  transition: opacity 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.submit-btn:hover { opacity: 0.88; }
+.submit-btn:disabled { cursor: not-allowed; opacity: 0.45; }
+.s-sell-ticket { background: var(--lions-navy); color: var(--lions-gold); }
+.s-buy-ticket { background: var(--green); color: #7fd1a8; }
+.s-sell-goods { background: #3a1a0d; color: #e8a86d; }
+.s-buy-goods { background: #1a3a0d; color: #a8e86d; }
+
+.filter-row {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  min-height: 30px;
+  padding: 5px 13px;
+  border: 1px solid var(--border2);
+  border-radius: 99px;
+  background: transparent;
+  font-size: 12px;
+  color: var(--text2);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.filter-btn.active {
+  background: var(--surface);
+  color: var(--text);
+  border-color: var(--border2);
+  font-weight: 650;
+}
+
+.section-label {
+  font-size: 11px;
+  font-weight: 650;
+  color: var(--text3);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.count-badge {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  padding: 1px 8px;
+  font-size: 11px;
+  color: var(--text3);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ticket-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 1rem 1.25rem;
+  transition: border-color 0.15s, opacity 0.2s;
+  position: relative;
+}
+
+.ticket-card:hover { border-color: var(--border2); }
+.ticket-card.sell-card { border-left: 3px solid var(--lions-blue); }
+.ticket-card.buy-card { border-left: 3px solid #1a7a55; }
+.ticket-card.goods-sell-card { border-left: 3px solid #8a4a1a; }
+.ticket-card.goods-buy-card { border-left: 3px solid #2a6a1a; }
+.ticket-card.done { opacity: 0.48; border-left-color: var(--border2); }
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 6px;
+  gap: 8px;
+}
+
+.card-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  overflow-wrap: anywhere;
+}
+
+.card-sub {
+  font-size: 12px;
+  color: var(--text3);
+  margin-top: 2px;
+}
+
+.price-badge {
+  font-size: 13px;
+  font-weight: 750;
+  padding: 3px 11px;
+  border-radius: 99px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.sell-price { background: #e8eeff; color: #0d1b4b; }
+.buy-price { background: #e1f5ee; color: #0f6e56; }
+.goods-sell-price { background: #fff0e8; color: #7a3a0d; }
+.goods-buy-price { background: #f0ffe8; color: #2a6a0d; }
+
+@media (prefers-color-scheme: dark) {
+  .sell-price { background: #1a2050; color: #a8bbff; }
+  .buy-price { background: #0d3a26; color: #6fcfa0; }
+  .goods-sell-price { background: #3a1a0d; color: #e8a86d; }
+  .goods-buy-price { background: #1a3a0d; color: #a8e86d; }
+  .status-banner { background: #372d0d; color: #f2da83; border-color: #705b1b; }
+}
+
+.card-meta {
+  display: flex;
+  gap: 10px;
+  font-size: 12px;
+  color: var(--text2);
+  margin-bottom: 6px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.card-desc {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.55;
+  margin-bottom: 10px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.type-tag {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: var(--radius-md);
+  flex-shrink: 0;
+  font-weight: 650;
+}
+
+.tag-sell-ticket { background: var(--lions-navy); color: var(--lions-gold); }
+.tag-buy-ticket { background: var(--green); color: #7fd1a8; }
+.tag-sell-goods { background: #3a1a0d; color: #e8a86d; }
+.tag-buy-goods { background: #1a3a0d; color: #a8e86d; }
+.vs-badge { font-size: 11px; background: var(--lions-navy); color: var(--lions-light); padding: 1px 7px; border-radius: var(--radius-md); font-weight: 650; }
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.card-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.kakao-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 750;
+  background: #fee500;
+  color: #3a1d1d;
+  padding: 5px 12px;
+  border-radius: 99px;
+  text-decoration: none;
+  transition: opacity 0.15s;
+}
+
+.kakao-link:hover { opacity: 0.85; }
+
+.done-badge, .done-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 650;
+  border-radius: 99px;
+}
+
+.done-badge {
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  color: var(--text3);
+  padding: 3px 9px;
+}
+
+.done-btn {
+  min-height: 28px;
+  padding: 4px 10px;
+  border: 1px solid var(--border2);
+  background: transparent;
+  color: var(--text2);
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--text3);
+  font-size: 13px;
+}
+
+.empty-state i {
+  font-size: 36px;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--lions-navy);
+  color: var(--lions-gold);
+  padding: 11px 22px;
+  border-radius: 99px;
+  font-size: 13px;
+  font-weight: 650;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+  z-index: 999;
+  border: 1px solid var(--lions-gold);
+  white-space: nowrap;
+  max-width: calc(100vw - 32px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.toast.show { opacity: 1; }
+.hidden { display: none !important; }
+
+@media (max-width: 520px) {
+  .container { padding: 1rem 0.75rem 3rem; }
+  .form-grid { grid-template-columns: 1fr; }
+  .form-full { grid-column: 1; }
+  .header-titles h1 { font-size: 14px; }
+  .header-titles span { font-size: 10px; }
+  .ticket-card { padding: 0.9rem 1rem; }
+  .card-top { flex-direction: column; }
+  .price-badge { align-self: flex-start; }
+  .filter-btn { flex: 1 1 calc(50% - 6px); }
+}

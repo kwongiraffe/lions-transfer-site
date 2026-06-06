@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="삼성 라이온즈 티켓과 굿즈 양도 게시판" />
+    <title>라이온즈 양도 게시판</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.9.0/dist/tabler-icons.min.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-inner">
+        <div class="lion-badge" aria-hidden="true">L</div>
+        <div class="header-titles">
+          <h1>라이온즈 양도 게시판</h1>
+          <span>삼성 라이온즈 티켓 및 굿즈 안전 거래</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <div class="status-banner hidden" id="config-warning">
+        Supabase 환경변수를 설정하면 게시글을 등록하고 실시간으로 공유할 수 있습니다.
+      </div>
+
+      <section class="category-tabs" aria-label="카테고리 선택">
+        <button class="cat-btn active-ticket" id="cat-ticket" type="button" data-cat="ticket">
+          <i class="ti ti-ticket"></i> 티켓 양도
+        </button>
+        <button class="cat-btn" id="cat-goods" type="button" data-cat="goods">
+          <i class="ti ti-shirt"></i> 굿즈 양도
+        </button>
+      </section>
+
+      <section class="trade-tabs" aria-label="거래 유형 선택">
+        <button class="trade-btn active-sell" id="trade-sell" type="button" data-trade="sell">
+          <i class="ti ti-tag"></i> 양도합니다
+        </button>
+        <button class="trade-btn" id="trade-buy" type="button" data-trade="buy">
+          <i class="ti ti-search"></i> 양도 구합니다
+        </button>
+      </section>
+
+      <form id="form-ticket-sell" class="form-card" data-form="ticket-sell">
+        <div class="form-title"><i class="ti ti-tag"></i> 티켓 양도 글 작성</div>
+        <div class="form-grid">
+          <label class="form-group">
+            <span>상대팀</span>
+            <select id="ts-opponent" required></select>
+          </label>
+          <label class="form-group">
+            <span>경기 날짜</span>
+            <input type="date" id="ts-date" />
+          </label>
+          <label class="form-group">
+            <span>좌석 위치</span>
+            <input type="text" id="ts-seat" placeholder="예: 1루 내야지정석 3구역 15번" required />
+          </label>
+          <label class="form-group">
+            <span>양도 가격(원)</span>
+            <input type="number" id="ts-price" placeholder="예: 15000" min="0" required />
+          </label>
+          <label class="form-group form-full">
+            <span>카카오 오픈채팅 링크</span>
+            <input type="url" id="ts-kakao" placeholder="https://open.kakao.com/o/..." />
+            <small>링크를 입력하면 카드에 바로가기 버튼이 표시됩니다.</small>
+          </label>
+          <label class="form-group form-full">
+            <span>상세 설명</span>
+            <textarea id="ts-desc" placeholder="거래 방식, 취소 사유 등을 자유롭게 작성해주세요."></textarea>
+          </label>
+        </div>
+        <button class="submit-btn s-sell-ticket" type="submit"><i class="ti ti-plus"></i> 양도 글 등록</button>
+      </form>
+
+      <form id="form-ticket-buy" class="form-card hidden" data-form="ticket-buy">
+        <div class="form-title"><i class="ti ti-search"></i> 티켓 구매 글 작성</div>
+        <div class="form-grid">
+          <label class="form-group">
+            <span>상대팀</span>
+            <select id="tb-opponent" required></select>
+          </label>
+          <label class="form-group">
+            <span>경기 날짜</span>
+            <input type="date" id="tb-date" />
+          </label>
+          <label class="form-group">
+            <span>티켓 매수</span>
+            <input type="number" id="tb-count" placeholder="예: 2" min="1" required />
+          </label>
+          <label class="form-group">
+            <span>희망 가격(원)</span>
+            <input type="number" id="tb-price" placeholder="예: 15000" min="0" required />
+          </label>
+          <label class="form-group form-full">
+            <span>카카오 오픈채팅 링크</span>
+            <input type="url" id="tb-kakao" placeholder="https://open.kakao.com/o/..." />
+            <small>링크를 입력하면 카드에 바로가기 버튼이 표시됩니다.</small>
+          </label>
+          <label class="form-group form-full">
+            <span>상세 설명</span>
+            <textarea id="tb-desc" placeholder="원하는 구역, 거래 방식 등을 자유롭게 작성해주세요."></textarea>
+          </label>
+        </div>
+        <button class="submit-btn s-buy-ticket" type="submit"><i class="ti ti-plus"></i> 구매 글 등록</button>
+      </form>
+
+      <form id="form-goods-sell" class="form-card hidden" data-form="goods-sell">
+        <div class="form-title"><i class="ti ti-shirt"></i> 굿즈 양도 글 작성</div>
+        <div class="form-grid">
+          <label class="form-group form-full">
+            <span>상품명</span>
+            <input type="text" id="gs-name" placeholder="예: 삼성 라이온즈 유니폼 2024" required />
+          </label>
+          <label class="form-group">
+            <span>수량</span>
+            <input type="number" id="gs-qty" placeholder="예: 1" min="1" required />
+          </label>
+          <label class="form-group">
+            <span>양도 가격(원)</span>
+            <input type="number" id="gs-price" placeholder="예: 80000" min="0" required />
+          </label>
+          <label class="form-group form-full">
+            <span>카카오 오픈채팅 링크</span>
+            <input type="url" id="gs-kakao" placeholder="https://open.kakao.com/o/..." />
+            <small>링크를 입력하면 카드에 바로가기 버튼이 표시됩니다.</small>
+          </label>
+          <label class="form-group form-full">
+            <span>상세 설명</span>
+            <textarea id="gs-desc" placeholder="상품 상태, 구매 시기, 거래 방식 등을 작성해주세요."></textarea>
+          </label>
+        </div>
+        <button class="submit-btn s-sell-goods" type="submit"><i class="ti ti-plus"></i> 양도 글 등록</button>
+      </form>
+
+      <form id="form-goods-buy" class="form-card hidden" data-form="goods-buy">
+        <div class="form-title"><i class="ti ti-search"></i> 굿즈 구매 글 작성</div>
+        <div class="form-grid">
+          <label class="form-group form-full">
+            <span>상품명</span>
+            <input type="text" id="gb-name" placeholder="예: 구자욱 응원 타월" required />
+          </label>
+          <label class="form-group">
+            <span>수량</span>
+            <input type="number" id="gb-qty" placeholder="예: 1" min="1" required />
+          </label>
+          <label class="form-group">
+            <span>희망 가격(원)</span>
+            <input type="number" id="gb-price" placeholder="예: 15000" min="0" required />
+          </label>
+          <label class="form-group form-full">
+            <span>카카오 오픈채팅 링크</span>
+            <input type="url" id="gb-kakao" placeholder="https://open.kakao.com/o/..." />
+            <small>링크를 입력하면 카드에 바로가기 버튼이 표시됩니다.</small>
+          </label>
+          <label class="form-group form-full">
+            <span>상세 설명</span>
+            <textarea id="gb-desc" placeholder="원하는 상태, 거래 방식 등을 작성해주세요."></textarea>
+          </label>
+        </div>
+        <button class="submit-btn s-buy-goods" type="submit"><i class="ti ti-plus"></i> 구매 글 등록</button>
+      </form>
+
+      <section class="filter-row" aria-label="게시글 필터">
+        <button class="filter-btn active" type="button" data-filter="all">전체</button>
+        <button class="filter-btn" type="button" data-filter="ticket-sell">티켓 양도</button>
+        <button class="filter-btn" type="button" data-filter="ticket-buy">티켓 구매</button>
+        <button class="filter-btn" type="button" data-filter="goods-sell">굿즈 양도</button>
+        <button class="filter-btn" type="button" data-filter="goods-buy">굿즈 구매</button>
+      </section>
+
+      <div class="section-label">
+        <i class="ti ti-list"></i>
+        게시글 <span class="count-badge" id="post-count">0</span>
+      </div>
+
+      <section class="list" id="post-list" aria-live="polite"></section>
+    </main>
+
+    <div class="toast" id="toast" role="status"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

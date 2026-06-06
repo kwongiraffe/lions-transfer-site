@@ -175,12 +175,14 @@ function buildPayload(category, tradeType) {
     const opponent = $("#ts-opponent").value;
     const seat = $("#ts-seat").value.trim();
     const price = Number($("#ts-price").value);
-    if (!opponent || !seat || Number.isNaN(price)) {
-      showToast("상대팀, 좌석 위치, 가격을 입력해주세요.");
+    const authorName = $("#ts-author").value.trim();
+    if (!opponent || !seat || Number.isNaN(price) || !authorName) {
+      showToast("상대팀, 좌석 위치, 가격, 작성자 이름을 입력해주세요.");
       return null;
     }
     return {
       ...base,
+      author_name: authorName,
       opponent,
       game_date: $("#ts-date").value || null,
       seat,
@@ -194,12 +196,14 @@ function buildPayload(category, tradeType) {
     const opponent = $("#tb-opponent").value;
     const quantity = Number($("#tb-count").value);
     const price = Number($("#tb-price").value);
-    if (!opponent || Number.isNaN(quantity) || Number.isNaN(price)) {
-      showToast("상대팀, 매수, 가격을 입력해주세요.");
+    const authorName = $("#tb-author").value.trim();
+    if (!opponent || Number.isNaN(quantity) || Number.isNaN(price) || !authorName) {
+      showToast("상대팀, 매수, 가격, 작성자 이름을 입력해주세요.");
       return null;
     }
     return {
       ...base,
+      author_name: authorName,
       opponent,
       game_date: $("#tb-date").value || null,
       quantity,
@@ -213,12 +217,14 @@ function buildPayload(category, tradeType) {
     const itemName = $("#gs-name").value.trim();
     const quantity = Number($("#gs-qty").value);
     const price = Number($("#gs-price").value);
-    if (!itemName || Number.isNaN(quantity) || Number.isNaN(price)) {
-      showToast("상품명, 수량, 가격을 입력해주세요.");
+    const authorName = $("#gs-author").value.trim();
+    if (!itemName || Number.isNaN(quantity) || Number.isNaN(price) || !authorName) {
+      showToast("상품명, 수량, 가격, 작성자 이름을 입력해주세요.");
       return null;
     }
     return {
       ...base,
+      author_name: authorName,
       item_name: itemName,
       quantity,
       price,
@@ -230,12 +236,14 @@ function buildPayload(category, tradeType) {
   const itemName = $("#gb-name").value.trim();
   const quantity = Number($("#gb-qty").value);
   const price = Number($("#gb-price").value);
-  if (!itemName || Number.isNaN(quantity) || Number.isNaN(price)) {
-    showToast("상품명, 수량, 가격을 입력해주세요.");
+  const authorName = $("#gb-author").value.trim();
+  if (!itemName || Number.isNaN(quantity) || Number.isNaN(price) || !authorName) {
+    showToast("상품명, 수량, 가격, 작성자 이름을 입력해주세요.");
     return null;
   }
   return {
     ...base,
+    author_name: authorName,
     item_name: itemName,
     quantity,
     price,
@@ -300,6 +308,7 @@ function postCard(post) {
 
   const meta = el("div", "card-meta");
   meta.append(el("span", `type-tag ${tagClass(post)}`, typeLabel(post)));
+  meta.append(iconText("ti-user", post.author_name ?? "익명"));
 
   if (post.category === "ticket" && post.trade_type === "sell") {
     meta.append(iconText("ti-armchair", post.seat ?? "좌석 미입력"));

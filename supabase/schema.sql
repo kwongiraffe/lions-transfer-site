@@ -2,6 +2,7 @@ create extension if not exists pgcrypto;
 
 create table if not exists public.transfer_posts (
   id uuid primary key default gen_random_uuid(),
+  author_name text not null default '익명',
   category text not null check (category in ('ticket', 'goods')),
   trade_type text not null check (trade_type in ('sell', 'buy')),
   opponent text,
@@ -24,6 +25,9 @@ create table if not exists public.transfer_posts (
     or item_name is not null
   )
 );
+
+alter table public.transfer_posts
+  add column if not exists author_name text not null default '익명';
 
 create index if not exists transfer_posts_created_at_idx
   on public.transfer_posts (created_at desc);
